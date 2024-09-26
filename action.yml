@@ -1,0 +1,23 @@
+name: 'Markdown Finder'
+description: 'A GitHub Action to find all Markdown files in a repository'
+author: 'Your Name'
+
+inputs:
+  path:
+    description: 'The path to search for markdown files'
+    required: false
+    default: '.'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.path }}
+
+outputs:
+  markdown_files:
+    description: 'List of markdown files found'
+
+branding:
+  icon: 'book'
+  color: 'blue'
