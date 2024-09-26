@@ -1,0 +1,22 @@
+name: Markdown Finder
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  find-markdown-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Run the custom Markdown Finder Action
+      - name: Find Markdown Files
+        uses: your-username/markdown-finder-action@main
+        with:
+          path: '.'  # Optional, you can specify the directory to search
