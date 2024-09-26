@@ -11,4 +11,4 @@ COPY scripts/ /app/scripts/
 RUN pip install --upgrade pip
 
 # Set the default command to run when the container starts
-ENTRYPOINT ["python", "/app/scripts/find_markdown_files.py"]
+ENTRYPOINT ["python", "/app/scripts/main.py"]
