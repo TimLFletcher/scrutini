@@ -17,6 +17,6 @@ jobs:
 
       # Step 2: Run the custom Markdown Finder Action
       - name: Find Markdown Files
-        uses: your-username/markdown-finder-action@main
+        uses: TimLFletcher/scrutini@main
         with:
           path: '.'  # Optional, you can specify the directory to search
