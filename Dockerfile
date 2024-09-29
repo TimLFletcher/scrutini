@@ -1,14 +1,18 @@
-# Use a lightweight Python base image
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy the script into the container
-COPY scripts/ /app/scripts/
+# Copy your script and dependencies into the container
+COPY . .
 
-# Install any dependencies (if required in the future)
-RUN pip install --upgrade pip
+# Install any Python dependencies here
+RUN pip install -r requirements.txt
 
-# Set the default command to run when the container starts
-ENTRYPOINT ["python", "/app/scripts/main.py"]
+# Set up environment variables
+# The actual values will be passed when the container is run in GitHub Actions
+ENV ANALYZERS=""
+ENV OUTPUT_FORMAT="text"
+
+# Entry point for the container
+CMD ["python", "script.py", "--dir", "${INPUT_PATH}"]

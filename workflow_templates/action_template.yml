@@ -1,22 +1,27 @@
-name: Markdown Finder
+name: "Markdown Finder"
+description: "A GitHub Action to find and analyze Markdown files in a repository"
+author: "Your Name"
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+inputs:
+  path:
+    description: "The path to search for markdown files"
+    required: false
+    default: "."
+  analyzers:
+    description: "Comma-separated list of analyzers to run (e.g., links, text)"
+    required: false
+    default: "links,text"
+  output_format:
+    description: "The output format for the report (e.g., text, latex)"
+    required: false
+    default: "text"
 
-jobs:
-  find-markdown-files:
-    runs-on: ubuntu-latest
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.path }}
 
-    steps:
-      # Step 1: Checkout the repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Step 2: Run the custom Markdown Finder Action
-      - name: Find Markdown Files
-        uses: TimLFletcher/scrutini@main
-        with:
-          path: '.'  # Optional, you can specify the directory to search
+branding:
+  icon: "book"
+  color: "blue"
