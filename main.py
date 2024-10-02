@@ -1,10 +1,9 @@
 import os
 import argparse
 from read.markdown_reader import read_file
-from metrics.links import analyze_links
-from metrics.units import analyse_text
+from analysis.units import TextStatisticsAnalyzer
 from core.analysis_manager import AnalysisManager
-from reporting.report_manager import ReportGenerator
+
 
 def main():
     # Set up argument parser
@@ -15,16 +14,17 @@ def main():
     # Use environment variables to configure analyzers and output format
     # Set these in your action.yml or accept the defaults below
     analyzers = os.getenv("ANALYZERS", "links,text").split(",")
-    output_format = os.getenv("OUTPUT_FORMAT", "text")
     
+    # Set up the analyzer
     analysis_manager = AnalysisManager()
-    report_generator = ReportGenerator(output_format=output_format)
 
-    # Register analyzers based on environment variable
+    # Register analyzers based on environment variables
     if "links" in analyzers:
-        analysis_manager.register_analyzer(analyze_links)
+        #analysis_manager.register_analyzer(analyze_links)
+        pass
     if "text" in analyzers:
-        analysis_manager.register_analyzer(analyse_text)
+        text_stats_analyzer = TextStatisticsAnalyzer()
+        analysis_manager.register_analyzer(text_stats_analyzer.analyze)
 
     # Loop through the directory to find .md files
     for root, dirs, files in os.walk(args.dir):
@@ -36,15 +36,15 @@ def main():
                 content = read_file(file_path)
                 
                 # Analyze the content with all registered analyzers
-                metrics = analysis_manager.analyse(content)
+                metrics = analysis_manager.analyse(file_path, content)
+                #print(metrics)
 
-                # Add metrics to the report
-                report_generator.add_metrics(file_path, metrics)
     
     # Generate the final report
-    report_generator.generate()
+    text_stats_analyzer.print_report()
+    text_stats_analyzer.print_summary()
+
 
 if __name__ == "__main__":
     main()
 
-# 
